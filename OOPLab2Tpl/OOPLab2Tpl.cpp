@@ -3,13 +3,10 @@
 
 #include <iostream>
 using namespace std;
+#include "MyTask.h" 
 
-void task1();
-void task2();
-void task3();
-void task4();
-void MenuTask();
-
+void exampl1();
+void exampl2();
 int main()
 {
     cout << "OOP. Template for laboratory work #2.\n";
@@ -18,58 +15,68 @@ int main()
     do {
         system("cls");
         MenuTask();
-        ch = getchar();
-        getchar();
+        ch = cin.get();
+        
+        cin.get();
+
         switch (ch) {
         case '1': task1();   break;
         case '2': task1();   break;
         case '3': task1();   break;
         case '4': task1();   break;
+		case '6':  exampl1(); break;
+		case '7':  exampl2(); break;
         case '5': return 0;
-        }
+	    }
         cout << " Press any key and enter\n";
-        ch = getchar();
+        ch = cin.get();
     } while (ch != 27);
 
     return 0;
 }
-void MenuTask()
+
+#include <clocale>
+//  Приклад переводу цілого числа з десяткової системи в двійкову
+void exampl1()
 {
-    cout << "     Menu Task   \n";
-    cout << "    1.  Calculation of expressions using bitwise operations  \n";
-    cout << "    2.  Data encryption using bitwise operations \n";
-    cout << "    3.  Data encryption using structures with bit fields \n";
-    cout << "    4.  The problem of using bitwise operations \n";
-    cout << "    5.  Exit \n";
-}
-void task1() {
-    // Обчислення виразів з використанням побітових операцій
-    // Calculation of expressions using bitwise operations 
-    cout << " Calculation of expressions using bitwise operations  \n";
-}
+	char out[255];
+	int i, in, ix, n = 0;
+	double x;
+	setlocale(LC_CTYPE, "ukr");
+	cout << " Введіть ціле додатне число:";
+	cin >> in;
+	if (in != 0) {
+		x = in;
+		do {
+			x = x / 2.;
+			ix = (int)x;
+			if ((x - ix) != 0) out[n] = '1';
+			else out[n] = '0';
+			n++;
+			x = ix;
+		} while (x >= 1);
+	}
+	cout << " Результат:";
+	for (i = n - 1; i >= 0; i--)
+		cout << out[i];
+	cin.get();
 
-void task2()
+	return ;
+}
+/*
+* Приклад обчислення виразу використовуючи тільки побітові операції.  
+* Вираз : x = 33 * a + (a * 16 – b * 17) / 8 + (15 * b + 300) / 128.
+*
+*/
+void exampl2()
 {
-    // Шифрування даних з використання побітових операцій 
-    // Data encryption using bitwise operations
-    cout << " Data encryption using bitwise operations  \n";
-
+	int a, b, x, y;
+	cout << " Введiть a  b ";
+	cin >> a >> b;
+	x = a + (a << 5) + (((a << 4) - b - (b << 4)) >> 3) + (((b << 4) - b + 300) >> 7);
+	y = a * 33 + (a * 16 - b * 17) / 8 + (15 * b + 300) / 128;
+	cout << "  x=" << x << "  y=" << y << " a=" << a << "  b=" << b << endl;
+	cin.get();
+	cin.get();
+	return;
 }
-
-void task3()
-{
-    // Шифрування даних з використання стуктур з бітовими полями 
-    // Data encryption using structures with bit fields
-    cout << "  Data encryption using structures with bit fields \n";
-}
-
-
-void task4()
-{   // Задача із використання побітових операцій
-    // The problem of using bitwise operations
-    cout << " Data encryption using structures with bit fields \n";
-
-}
-
-
-
