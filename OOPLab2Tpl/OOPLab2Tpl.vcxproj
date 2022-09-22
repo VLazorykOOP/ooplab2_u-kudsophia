@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MyTask.cpp" />
+    <ClCompile Include="Examples.cpp" />
+    <ClCompile Include="Tasks.cpp" />
     <ClCompile Include="OOPLab2Tpl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyTask.h" />
+    <ClInclude Include="Examples.h" />
+    <ClInclude Include="Tasks.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
-#include "MyTask.h" 
+#include "Tasks.h"
+#include "Examples.h"
 void MenuTask()
 {
     cout << "     Menu Task   \n";
@@ -8,7 +9,8 @@ void MenuTask()
     cout << "    2.  Data encryption using bitwise operations \n";
     cout << "    3.  Data encryption using structures with bit fields \n";
     cout << "    4.  The problem of using bitwise operations \n";
-    cout << "    5.  Exit \n";
+    cout << "    5.  Examples of problems using bitwise operations \n";
+    cout << "    6.  Exit \n";
 }
 void task1() {
     // Обчислення виразів з використанням побітових операцій
@@ -38,3 +40,5 @@ void task4()
     cout << " Data encryption using structures with bit fields \n";
 
 }
+
+
