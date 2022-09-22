@@ -6,8 +6,7 @@ using namespace std;
 #include "Tasks.h"
 #include "Examples.h"
 
-void exampl1();
-void exampl2();
+
 int main()
 {
     cout << "OOP. Template for laboratory work #2.\n";

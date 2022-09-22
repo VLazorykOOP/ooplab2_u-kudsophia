@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 #include <clocale>
 #include <Windows.h>
@@ -118,9 +119,71 @@ void Example2()
 	return;
 }
 
+void Shifruvanna(char S[64], unsigned short Rez[64])
+{
+	unsigned char c;
+	unsigned short r, t, i, b;
+	short j;
+    for (i = 0; i < 64; i++)            //
+	{
+		r = 0;                        // 0000 0000 0000 0000
+		c = S[i];                     // s - 0x73 = 0111 0011
+		t = c;
+		r |= t >> 4;                  // 0000 0000 0000 0111
+		r |= i << 4;                  // 0000 0000 0101 0111  if i=5 -> 0000 0000 0000 0101
+		t = c;
+		r |= t << 12;                 // 0011 0000 0101 0111  if i=5 0000 0000 0000 0101
+		t = 1;
+		b = 0;
+		for (j = 0; j < 16; j++)         // обчислення біта парності
+		{
+			if (r & t) {
+				if (b == 0) b = 1; else b = 0;
+			}
+			t <<= 1;
+		}
+		r |= b << 11;                    // 0011 0000 0101 0111 if i=5 0000 0000 0000 0101
+		Rez[i] = r;
+	}
+}
+
 void Example3() {
+	char S[65];
+	unsigned short Rez[64];
+	unsigned short i, f;
+	cout << " Input string from file press 1\n ";
+	cin >> f;
+	if (f == 1) {
+		ifstream ifs("in.txt");
+		if (!ifs) {
+			cout << "File in.txt not open" << endl; f = 2;
+		}
+		else {
+			ifs.get(S, 64);
+			ifs.close();
+		}
+		}
+	if(f!=1) {
+		cout << " Input string (size <=64) \n";
+		cin.get(S, 64);
+	}
+	int n = strlen(S);
+	for (int i = n; i < 64; i++) S[i] = '\0';
 
 
+	Shifruvanna(S, Rez);
+
+	for (i = 0; i < 64; i++)
+		cout << hex << Rez[i] << endl;
+	ofstream ofsb("outb.dat", ios::out | ios::binary);
+	if (!ofsb) {
+		cout << "File outb.dat not open" << endl;
+	}
+	else {
+		ofsb.write((char*)Rez, 64 * sizeof(unsigned short));
+		ofsb.close();
+	}
+	cin.get();
 }
 void Example4() {
 
