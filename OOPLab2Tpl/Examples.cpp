@@ -118,8 +118,19 @@ void Example2()
 	cin.get();
 	return;
 }
-
-void Shifruvanna(char S[64], unsigned short Rez[64])
+/*
+Задано текст ASCII (текстовий рядок), який складається з 64 букв. 
+Написати функції шифрування та розшифрування заданого тексту. 
+Кожна при шифруванні буква тексту буде записана у елемент, 
+який складається з двох байтів та має структуру:
+  -  у бітах 0-3 старша частина, тобто біти 4-7 ASCII - коду букви (4 біти) - СЧКБ,
+  -  у бітах 4-10 позиція букви у рядку (7 біти) - ПБР,
+  -  у бітах 12-15 молодша частина, тобто біти 0-3 ASCII - коду букви (4 біти) - МЧКБ,
+  -  11 біт – біт парності отриманого запису (1 біт)  -БП.
+  -    15 14 13 12  11  10 09 08 07 06 05 04 03 02 01 00
+       | МЧКБ    | |БП| |     ПБР          | |   СЧКБ  |    
+*/
+void MyEncryption(char InS[64], unsigned short OutCoding[64])
 {
 	unsigned char c;
 	unsigned short r, t, i, b;
@@ -127,7 +138,7 @@ void Shifruvanna(char S[64], unsigned short Rez[64])
     for (i = 0; i < 64; i++)            //
 	{
 		r = 0;                        // 0000 0000 0000 0000
-		c = S[i];                     // s - 0x73 = 0111 0011
+		c = InS[i];                     // s - 0x73 = 0111 0011
 		t = c;
 		r |= t >> 4;                  // 0000 0000 0000 0111
 		r |= i << 4;                  // 0000 0000 0101 0111  if i=5 -> 0000 0000 0000 0101
@@ -143,8 +154,42 @@ void Shifruvanna(char S[64], unsigned short Rez[64])
 			t <<= 1;
 		}
 		r |= b << 11;                    // 0011 0000 0101 0111 if i=5 0000 0000 0000 0101
-		Rez[i] = r;
+		OutCoding[i] = r;
 	}
+}
+int MyDecryption(char OutS[64], unsigned short InCoding[64]) {
+	
+	unsigned char c;
+	unsigned short r, t, i, b, p, w;
+	short j;
+	for (i = 0; i < 64; i++)            //
+	{
+		// Перевірка парності
+		r = InCoding[i];
+		t = r & 0b1111011111111111;      //  0xf7ff			1111 0111 1111 1111
+		p = r & 0b0000100000000000;      //  0x0800			0000 1000 0000 0000
+		w = 1;
+		b = 0;
+		for (j = 0; j < 16; j++)         // обчислення біта парності
+		{
+			if (r & w) {
+				if (b == 0) b = 1; else b = 0;
+			}
+			w <<= 1;
+		}
+		p >>= 11;
+		if (p != b)  return -i;
+		t = r & 0b1111000000000000;  // 0xf000
+		t >>= 12;
+		w = r & 0b0000000000001111;  // 0x000f
+		w <<= 4;
+		t |= w;
+		p = r & 0b0000011111110000;  // 0x07f
+		p >>= 4;
+		OutS[p] = (unsigned char)t;
+	}
+
+	return 1;
 }
 
 void Example3() {
@@ -171,23 +216,50 @@ void Example3() {
 	for (int i = n; i < 64; i++) S[i] = '\0';
 
 
-	Shifruvanna(S, Rez);
+	MyEncryption(S, Rez);
 
 	for (i = 0; i < 64; i++)
 		cout << hex << Rez[i] << endl;
-	ofstream ofsb("outb.dat", ios::out | ios::binary);
+	ofstream ofsb("outb.bin", ios::out | ios::binary);
 	if (!ofsb) {
-		cout << "File outb.dat not open" << endl;
+		cout << "File outb.bin not open" << endl;
 	}
 	else {
 		ofsb.write((char*)Rez, 64 * sizeof(unsigned short));
 		ofsb.close();
+		cout << "Data write to outb.bin " << endl;
 	}
 	cin.get();
 }
 void Example4() {
+	char S[65];
+	unsigned short InBin[64];
+	ofstream ofs("out.txt");
+	if (!ofs) {
+		cout << "File out.txt not open" << endl;
+		return;
+	}
+	ifstream ifsb("outb.bin", ios::in | ios::binary);
+	if (!ifsb) {
+		cout << "File outb.bin not open" << endl;
+		return;
+	}
+	else {
+		ifsb.read((char*)InBin, 64 * sizeof(unsigned short));
+		ifsb.close();
+		cout << "Data read from outb.bin " << endl;
 
+	}
+	int r;
+	r = MyDecryption(S, InBin);
+	if (r < 1) {
+		cout << "Error  read  " << r << " row " << endl;
+	}
+	cout << "String  " << S << endl;
+	ofs << S << endl;
 }
+
+
 void Example5() {
 
 }
