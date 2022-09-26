@@ -1,10 +1,14 @@
-﻿#include <iostream>
+﻿#define VS_CODE
+#include <iostream>
 #include <fstream>
 using namespace std;
 #include <clocale>
-#include <Windows.h>
+#include <string.h>
+#if !defined(VS_CODE)
+	#include <Windows.h>
+#endif
 #include "Examples.h"
-enum  ConsoleColor //: unsigned int
+enum  ConsoleColor : unsigned int
 {							//0000 IRGB  
 	Black = 0x00,			//0000 0000
 	Blue = 0x01,			//0000 0001
@@ -23,30 +27,47 @@ enum  ConsoleColor //: unsigned int
 	Yellow = 0x0e,			//0000 1110
 	White = 0x0f			//0000 1111
 };
+#if !defined(VS_CODE)
 void SetColor(ConsoleColor text, ConsoleColor background)
 {
 	HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(Console, (WORD)((background << 4) | text));
 }
-
+#endif
 void MenuExamples() {
+	#if !defined(VS_CODE)
 	SetColor(Blue, Black);
+	#endif
 	cout << "     Examples   \n";
+	#if !defined(VS_CODE)
 	SetColor(Green, Black);
+	
 	cout << "    1.  Приклад переводу цілого числа з десяткової системи в двійкову \n";
 	cout << "    2.  Приклад обчислення виразу використовуючи тiльки побiтовi операцiї. \n";
 	cout << "    3.  Приклад шифрування рядка в 64 байти   \n";
 	cout << "    4.  Приклад розшифрування рядка в 64 байти   \n";
 	cout << "    5.   \n";
 	cout << "    6.  Exit \n";
+	#else
+	cout << "    1.  An example of converting an integer from the decimal system to binary \n";
+	cout << "    2.  An example of calculating an expression using only bitwise operations. \n";
+	cout << "    3.  An example of encrypting a 64-byte string   \n";
+	cout << "    4.  An example of deencrypting a string of 64 bytes   \n";
+	cout << "    5.   \n";
+	cout << "    6.  Exit \n";
+
+	#endif
 }
 void Examples()
 {   // Examples of tasks using bitwise operations
     // Приклади задач з використанням побітових операцій
+  
+	#if !defined(VS_CODE)
 	setlocale(LC_CTYPE, "ukr");  // 
-	
-    cout << " Examples of tasks using bitwise operations \n";
 	cout << " Приклади задач з використанням побiтових операцiй \n";
+#else
+   cout << " Examples of tasks using bitwise operations \n";
+#endif
 	char ch = '5';
 	do {
 		system("cls");
@@ -61,24 +82,34 @@ void Examples()
 		case '3': Example3();   break;
 		case '4': Example4();   break;
 		case '5':  Example5();  break;
-		case '6': SetColor(White, Black); return ;
+		case '6': 
+		#if !defined(VS_CODE)
+		SetColor(White, Black); 
+		#endif
+		return ;
 		}
 		cout << " Press any key and enter\n";
 		ch = cin.get();
 	} while (ch != '6');
+#if !defined(VS_CODE)
 	SetColor(White, Black);
+#endif
 	return ;
 }
 
 #include <clocale>
+// An example of converting an integer from the decimal system to binary  
 //  Приклад переводу цілого числа з десяткової системи в двійкову
 void Example1()
 {
 	char out[17];
 	int i, in, ix, n = 0;
 	double x;
-	
+	#if !defined(VS_CODE)
 	cout << " Введiть цiле додатне число:";
+	#else 
+	cout << " Enter a positive integer:";
+#endif
 	cin >> in;
 	if (in != 0) {
 		x = in;
@@ -91,7 +122,12 @@ void Example1()
 			x = ix;
 		} while (x >= 1);
 	}
-	cout << " Результат: \n";
+	#if !defined(VS_CODE)
+cout << " Результат: \n";
+	#else 
+	cout << " Rezult:";
+#endif
+	
 	for (i = n - 1; i >= 0; i--)
 		cout << out[i];
 	cout << endl;
@@ -107,9 +143,16 @@ void Example1()
 void Example2()
 {
 	int a, b, x, y;
-	cout << "Приклад обчислення виразу використовуючи тiльки побiтовi операцiї.\n";
+	#if !defined(VS_CODE)
+cout << "Приклад обчислення виразу використовуючи тiльки побiтовi операцiї.\n";
 	cout << "Вираз : x = 33 * a + (a * 16 – b * 17) / 8 + (15 * b + 300) / 128. \n";
 	cout << " Введiть a  b ";
+	#else 
+cout << "An example of calculating an expression using only bitwise operations.\n";
+	cout << "Expression : x = 33 * a + (a * 16 – b * 17) / 8 + (15 * b + 300) / 128. \n";
+	cout << " Input a  b ";
+#endif
+	
 	cin >> a >> b;
 	x = a + (a << 5) + (((a << 4) - b - (b << 4)) >> 3) + (((b << 4) - b + 300) >> 7);
 	y = a * 33 + (a * 16 - b * 17) / 8 + (15 * b + 300) / 128;
