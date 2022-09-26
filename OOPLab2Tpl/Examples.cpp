@@ -1,4 +1,6 @@
-﻿#define VS_CODE
+﻿#if !defined(_MSC_VER)
+#define VS_CODE
+#endif
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -111,6 +113,9 @@ void Example1()
 	cout << " Enter a positive integer:";
 #endif
 	cin >> in;
+	auto st = cin.rdstate();
+	if (st != cin.goodbit) { cin.clear(); cout << " error \n"; cin.get(); cin.get(); return; }
+
 	if (in != 0) {
 		x = in;
 		do {
@@ -154,6 +159,8 @@ cout << "An example of calculating an expression using only bitwise operations.\
 #endif
 	
 	cin >> a >> b;
+    auto st = cin.rdstate();
+	if (st != cin.goodbit) { cin.clear(); cout << " error \n"; cin.get(); cin.get(); return; }
 	x = a + (a << 5) + (((a << 4) - b - (b << 4)) >> 3) + (((b << 4) - b + 300) >> 7);
 	y = a * 33 + (a * 16 - b * 17) / 8 + (15 * b + 300) / 128;
 	cout << "  x=" << x << "  y=" << y << " a=" << a << "  b=" << b << endl;
@@ -200,6 +207,42 @@ void MyEncryption(char InS[64], unsigned short OutCoding[64])
 		OutCoding[i] = r;
 	}
 }
+struct TextCode {
+	unsigned short schkb	: 4;
+	unsigned short posrow	: 7;
+	unsigned short bitp		: 1;
+	unsigned short mchkb	: 4;
+
+};
+unsigned char pbit(unsigned char c)
+{
+	unsigned char t = 1, b = 0;
+	for (int j = 0; j < 8; j++)         // обчислення біта парності
+	{
+		if (c & t) {
+			if (b == 0) b = 1; else b = 0;
+		}
+		t <<= 1;
+	}
+	return b;
+}
+void MyEncryptionS(char InS[64], TextCode OutCoding[64])
+{
+	unsigned char c;
+	unsigned short r, t, i;
+	short j;
+	for (i = 0; i < 64; i++)            //
+	{
+		c = InS[i];                     // s - 0x73 = 0111 0011
+		OutCoding[i].schkb = c >> 4;
+		OutCoding[i].mchkb = c & 0x0f;
+		OutCoding[i].posrow = i;
+		r = pbit(c);
+		t = pbit(static_cast<unsigned char>(i));
+		OutCoding[i].bitp = r^t;
+	}
+}
+
 int MyDecryption(char OutS[64], unsigned short InCoding[64]) {
 	
 	unsigned char c;
@@ -231,7 +274,6 @@ int MyDecryption(char OutS[64], unsigned short InCoding[64]) {
 		p >>= 4;
 		OutS[p] = (unsigned char)t;
 	}
-
 	return 1;
 }
 /*
@@ -262,7 +304,6 @@ void Example3() {
 	}
 	int n = strlen(S);
 	for (int i = n; i < 64; i++) S[i] = '\0';
-
 
 	MyEncryption(S, Rez);
 
@@ -297,7 +338,6 @@ void Example4() {
 		ifsb.read((char*)InBin, 64 * sizeof(unsigned short));
 		ifsb.close();
 		cout << "Data read from outb.bin " << endl;
-
 	}
 	int r;
 	r = MyDecryption(S, InBin);
@@ -311,5 +351,42 @@ void Example4() {
 
 
 void Example5() {
+	char S[65];
+	TextCode Rez[64];
+	unsigned short i, f;
+	cout << " Input string from file press 1 <Enter>\n ";
+	cin >> f;
+	if (f == 1) {
+		ifstream ifs("in.txt");
+		if (!ifs) {
+			cout << "File in.txt not open" << endl; f = 2;
+		}
+		else {
+			ifs.get(S, 64);
+			ifs.close();
+		}
+	}
+	if (f != 1) {
+		cin.get();
+		cout << " Input string (size <=64) \n";
+		cin.get(S, 64);
+	}
+	int n = strlen(S);
+	for (int i = n; i < 64; i++) S[i] = '\0';
+
+	MyEncryptionS(S, Rez);
+
+	
+	ofstream ofsb("outbs.bin", ios::out | ios::binary);
+	if (!ofsb) {
+		cout << "File outbs.bin not open" << endl;
+	}
+	else {
+		ofsb.write((char*)Rez, 64 * sizeof(TextCode));
+		ofsb.close();
+		cout << "Data write to outbs.bin " << endl;
+		cout << S << endl;
+	}
+	cin.get();
 
 }
