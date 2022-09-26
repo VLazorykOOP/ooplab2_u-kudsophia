@@ -7,6 +7,8 @@ using namespace std;
 #include "Examples.h"
 
 
+/// @brief 
+/// @return 
 int main()
 {
     cout << "OOP. Template for laboratory work #2.\n";
