@@ -323,7 +323,7 @@ void Example3() {
 }
 void Example4() {
 	char S[65];
-	unsigned short InBin[64];
+	unsigned short InBin[64]{};
 	ofstream ofs("out.txt");
 	if (!ofs) {
 		cout << "File out.txt not open" << endl;
@@ -334,11 +334,10 @@ void Example4() {
 		cout << "File outb.bin not open" << endl;
 		return;
 	}
-	else {
-		ifsb.read((char*)InBin, 64 * sizeof(unsigned short));
-		ifsb.close();
-		cout << "Data read from outb.bin " << endl;
-	}
+	ifsb.read((char*)InBin, 64 * sizeof(unsigned short));
+	ifsb.close();
+	cout << "Data read from outb.bin " << endl;
+	
 	int r;
 	r = MyDecryption(S, InBin);
 	if (r < 1) {
