@@ -35,8 +35,8 @@ void MenuExamples() {
 	SetColor(Green, Black);
 	cout << "    1.  Приклад переводу цілого числа з десяткової системи в двійкову \n";
 	cout << "    2.  Приклад обчислення виразу використовуючи тiльки побiтовi операцiї. \n";
-	cout << "    3.   \n";
-	cout << "    4.   \n";
+	cout << "    3.  Приклад шифрування рядка в 64 байти   \n";
+	cout << "    4.  Приклад розшифрування рядка в 64 байти   \n";
 	cout << "    5.   \n";
 	cout << "    6.  Exit \n";
 }
@@ -60,7 +60,7 @@ void Examples()
 		case '2': Example2();   break;
 		case '3': Example3();   break;
 		case '4': Example4();   break;
-		case '5':  Example5(); break;
+		case '5':  Example5();  break;
 		case '6': SetColor(White, Black); return ;
 		}
 		cout << " Press any key and enter\n";
@@ -172,7 +172,7 @@ int MyDecryption(char OutS[64], unsigned short InCoding[64]) {
 		b = 0;
 		for (j = 0; j < 16; j++)         // обчислення біта парності
 		{
-			if (r & w) {
+			if (t & w) {
 				if (b == 0) b = 1; else b = 0;
 			}
 			w <<= 1;
@@ -191,24 +191,29 @@ int MyDecryption(char OutS[64], unsigned short InCoding[64]) {
 
 	return 1;
 }
+/*
+* Приклад шифрування рядка в 64 байти  
+*
+*/
 
 void Example3() {
 	char S[65];
 	unsigned short Rez[64];
 	unsigned short i, f;
-	cout << " Input string from file press 1\n ";
+	cout << " Input string from file press 1 <Enter>\n ";
 	cin >> f;
 	if (f == 1) {
-		ifstream ifs("in.txt");
-		if (!ifs) {
-			cout << "File in.txt not open" << endl; f = 2;
-		}
-		else {
-			ifs.get(S, 64);
-			ifs.close();
-		}
+			ifstream ifs("in.txt");
+			if (!ifs) {
+				cout << "File in.txt not open" << endl; f = 2;
+				}
+				else {
+				ifs.get(S, 64);
+				ifs.close();
+				}
 		}
 	if(f!=1) {
+		cin.get();
 		cout << " Input string (size <=64) \n";
 		cin.get(S, 64);
 	}
@@ -228,6 +233,7 @@ void Example3() {
 		ofsb.write((char*)Rez, 64 * sizeof(unsigned short));
 		ofsb.close();
 		cout << "Data write to outb.bin " << endl;
+		cout << S << endl;
 	}
 	cin.get();
 }
@@ -257,6 +263,7 @@ void Example4() {
 	}
 	cout << "String  " << S << endl;
 	ofs << S << endl;
+	cin.get();
 }
 
 
