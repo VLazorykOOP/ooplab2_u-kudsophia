@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 #include "Tasks.h"
 #include "Examples.h"
@@ -13,14 +13,14 @@ void MenuTask()
     cout << "    6.  Exit \n";
 }
 void task1() {
-    // Îá÷èñëåííÿ âèðàç³â ç âèêîðèñòàííÿì ïîá³òîâèõ îïåðàö³é
+    // ÐžÐ±Ñ‡Ð¸ÑÐ»ÐµÐ½Ð½Ñ Ð²Ð¸Ñ€Ð°Ð·Ñ–Ð² Ð· Ð²Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð°Ð½Ð½ÑÐ¼ Ð¿Ð¾Ð±Ñ–Ñ‚Ð¾Ð²Ð¸Ñ… Ð¾Ð¿ÐµÑ€Ð°Ñ†Ñ–Ð¹
     // Calculation of expressions using bitwise operations 
     cout << " Calculation of expressions using bitwise operations  \n";
 }
 
 void task2()
 {
-    // Øèôðóâàííÿ äàíèõ ç âèêîðèñòàííÿ ïîá³òîâèõ îïåðàö³é 
+    // Ð¨Ð¸Ñ„Ñ€ÑƒÐ²Ð°Ð½Ð½Ñ Ð´Ð°Ð½Ð¸Ñ… Ð· Ð²Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð°Ð½Ð½Ñ Ð¿Ð¾Ð±Ñ–Ñ‚Ð¾Ð²Ð¸Ñ… Ð¾Ð¿ÐµÑ€Ð°Ñ†Ñ–Ð¹ 
     // Data encryption using bitwise operations
     cout << " Data encryption using bitwise operations  \n";
 
@@ -28,14 +28,14 @@ void task2()
 
 void task3()
 {
-    // Øèôðóâàííÿ äàíèõ ç âèêîðèñòàííÿ ñòóêòóð ç á³òîâèìè ïîëÿìè 
+    // Ð¨Ð¸Ñ„Ñ€ÑƒÐ²Ð°Ð½Ð½Ñ Ð´Ð°Ð½Ð¸Ñ… Ð· Ð²Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð°Ð½Ð½Ñ ÑÑ‚ÑƒÐºÑ‚ÑƒÑ€ Ð· Ð±Ñ–Ñ‚Ð¾Ð²Ð¸Ð¼Ð¸ Ð¿Ð¾Ð»ÑÐ¼Ð¸ 
     // Data encryption using structures with bit fields
     cout << "  Data encryption using structures with bit fields \n";
 }
 
 
 void task4()
-{   // Çàäà÷à ³ç âèêîðèñòàííÿ ïîá³òîâèõ îïåðàö³é
+{   // Ð—Ð°Ð´Ð°Ñ‡Ð° Ñ–Ð· Ð²Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð°Ð½Ð½Ñ Ð¿Ð¾Ð±Ñ–Ñ‚Ð¾Ð²Ð¸Ñ… Ð¾Ð¿ÐµÑ€Ð°Ñ†Ñ–Ð¹
     // The problem of using bitwise operations
     cout << " Data encryption using structures with bit fields \n";
 
